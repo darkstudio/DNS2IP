@@ -2,8 +2,41 @@ import socket
 import os
 import time
 import random
+import re
+
+def extract_domain(line):
+    """
+    Extrait le nom de domaine effectif d'une ligne.
+    - Ignore les lignes vides et les commentaires.
+    - Si la ligne commence par une IP et un espace, retourne le domaine.
+    - Sinon, retourne la ligne telle quelle si c'est un domaine.
+    - Retourne None si la ligne ne contient pas de domaine.
+    """
+    line = line.strip()
+    if not line or line.startswith('#'):
+        return None
+    # Format "0.0.0.0 domain.com"
+    match = re.match(r'^(?:\d{1,3}\.){3}\d{1,3}\s+([^\s#]+)', line)
+    if match:
+        return match.group(1)
+    # Format "domain.com"
+    if re.match(r'^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', line):
+        return line
+    return None
 
 def resolve_domains(input_file, output_file):
+    # Vérifier si le fichier domains.txt existe
+    if not os.path.isfile(input_file):
+        print(f"Le fichier '{input_file}' n'existe pas.")
+        print(f"Création du fichier '{input_file}' à la racine du projet...")
+        with open(input_file, 'w') as f:
+            f.write("# Exemple de liste de domaines à remplir, un domaine par ligne :\n")
+            f.write("google.be\n")
+            f.write("google.com\n")
+        print(f"Veuillez remplir '{input_file}' avec vos domaines, puis relancez le script.")
+        time.sleep(10)
+        return
+
     ips = []
     seen = set()
     batch_size = 250
@@ -17,10 +50,19 @@ def resolve_domains(input_file, output_file):
                     seen.add(ip)
                     ips.append(ip)
 
-    # Lire tous les domaines
+    # Lire et extraire les domaines effectifs
     with open(input_file, 'r') as f:
-        all_domains = [line.strip() for line in f if line.strip()]
-    
+        all_domains = []
+        for line in f:
+            domain = extract_domain(line)
+            if domain:
+                all_domains.append(domain)
+
+    if not all_domains:
+        print(f"Aucun domaine valide trouvé dans '{input_file}'. Veuillez le remplir avec des noms de domaines valides (ex : google.com).")
+        time.sleep(10)
+        return
+
     total = len(all_domains)
     processed = 0
 
@@ -41,9 +83,9 @@ def resolve_domains(input_file, output_file):
                 print(f"Domaine non résolu : {domain}")
             except Exception as e:
                 print(f"Erreur avec {domain} : {e}")
-        
+
         processed += len(batch)
-        
+
         if processed < total:
             delay = random.randint(10, 20)
             print(f"Pause aléatoire de {delay} secondes avant le prochain lot...")
@@ -53,7 +95,7 @@ def resolve_domains(input_file, output_file):
     unique_count = len(ips)
     ips = list(dict.fromkeys(ips))  # Suppression des doublons tout en conservant l'ordre
     duplicates_removed = unique_count - len(ips)
-    
+
     if duplicates_removed > 0:
         print(f"Vérification finale : {duplicates_removed} doublons supprimés")
 
@@ -63,7 +105,9 @@ def resolve_domains(input_file, output_file):
             f.write(ip + '\n')
 
     print(f"Nombre total d'adresses IP uniques : {len(ips)}")
+    print("Résolution terminée. Résultats dans ip-list.txt")
+    print("DNS2IP va se fermer dans 10 secondes...")
+    time.sleep(10)
 
 if __name__ == "__main__":
     resolve_domains("domains.txt", "ip-list.txt")
-    print("Résolution terminée. Résultats dans ip-list.txt")
