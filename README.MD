@@ -30,9 +30,13 @@ git clone https://github.com/darkstudio/DNS2IP.git
 cd DNS2IP
 ```
 
+## Executable
+
+Pour plus de facilité, vous pouvez utiliser directement la version compilée en EXE dans les Release.
+
 ## Configuration
 
-1. Créez un fichier `domains.txt` contenant les noms de domaine à résoudre, un par ligne :
+1. Créez un fichier `domains.txt` contenant les noms de domaine à résoudre, un par ligne (dns2ip creera ce fichier si il n'existe pas) :
 
 ```
 example.com
@@ -96,6 +100,3 @@ Le fichier de sortie `ip-list.txt` contiendra une liste d'adresses IP uniques, u
 
 MIT License
 
-## Executable
-
-Pour plus de facilité, vous pouvez utiliser directement la version compilée en EXE dans les Release.
