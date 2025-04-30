@@ -26,8 +26,8 @@ Ce programme lit une liste de noms de domaine à partir d'un fichier texte et r�
 Clonez ce dépôt ou téléchargez le fichier source :
 
 ```bash
-git clone https://github.com/votre-utilisateur/dns-resolver.git
-cd dns-resolver
+git clone https://github.com/darkstudio/DNS2IP.git
+cd DNS2IP
 ```
 
 ## Configuration
