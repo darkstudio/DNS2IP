@@ -1,5 +1,5 @@
 
-# DNS 2 IP
+# DNS2IP
 
 Un programme simple et efficace pour résoudre des noms de domaine en adresses IP.
 
