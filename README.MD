@@ -41,6 +41,16 @@ github.com
 ...
 ```
 
+Format standard "hosts" supporté :
+
+```
+# mon commentaire
+0.0.0.0 example.com
+0.0.0.0 google.com
+0.0.0.0 github.com
+...
+```
+
 2. Assurez-vous que le fichier a les permissions appropriées pour être lu par le script.
 
 ## Utilisation
