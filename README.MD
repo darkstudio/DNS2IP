@@ -48,7 +48,7 @@ github.com
 Exécutez le script avec la commande :
 
 ```bash
-python dns_resolver.py
+python dns2ip.py
 ```
 
 Par défaut, le script :
@@ -85,3 +85,7 @@ Le fichier de sortie `ip-list.txt` contiendra une liste d'adresses IP uniques, u
 ## Licence
 
 MIT License
+
+## Executable
+
+Pour plus de facilité, vous pouvez utiliser directement la version compilée en EXE dans les Release.
